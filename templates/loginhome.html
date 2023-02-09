@@ -1,0 +1,69 @@
+{% extends 'base.html' %}
+{% block title %} Manage Rewards {% endblock %}
+{% block body %}
+
+ {% with messages = get_flashed_messages(with_categories=true) %}
+      {% if messages %}
+        {% for category, message in messages %}
+           <div class="alert alert-dismissible fade show alert-{{ category }}" role="alert"> {{ message }} <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button></div>
+        {% endfor %}
+      {% endif %}
+    {% endwith %}
+<style>
+    .card-img-top {
+    width: 100%;
+    height: 20vw;
+    object-fit: cover;
+    }
+</style>
+
+<!-- Image header -->
+<div class="row" style="margin:auto;padding-left:auto;">
+    <img src="/static/nikeshoe.jpeg" alt="Jeans" style="width:auto; height:auto; margin:auto; padding-left:auto;">
+      <h1 style="text-align:center;">New Arrivals</h1>
+</div>
+
+<div class="row" id="index0" style="margin:auto;padding-left:auto;">
+    <div class="card m-2" style="width: 20rem;">
+    <img class="card-img-top" src="/static/shoe.jpeg" onerror="this.onerror=null; this.src='placeholder.jpeg'" alt="placeholder" width="100" height="120">
+    <div class="card-body">
+    <h5 class="card-title">Air Force 1</h5>
+    <p class="card-text">Price:$100.00 <br> </p>
+    <form action="/" >
+        <button class="btn btn-primary btn-xs float-right" onclick="return confirm ('Are you sure you want to Buy?')">Buy</button>
+    </form>
+    </div>
+    </div>
+    <div class="card m-2" style="width: 20rem;">
+    <img class="card-img-top" src="/static/shirt.jpeg" alt="Card image not displaying">
+    <div class="card-body">
+    <h5 class="card-title">Dri-Fit Shirt</h5>
+    <p class="card-text">Price:$40.00 <br> </p>
+    <form action="/" >
+        <button class="btn btn-primary btn-xs float-right"  onclick="return confirm ('Are you sure you want to Buy?')">Buy</button>
+    </form>
+    </div>
+    </div>
+        <div class="card m-2" style="width: 20rem;">
+    <img class="card-img-top" src="/static/pants.jpeg" alt="Card image not displaying">
+    <div class="card-body">
+    <h5 class="card-title">Nike Pants</h5>
+    <p class="card-text">Price:$40.00 <br> </p>
+    <form action="/">
+        <button class="btn btn-primary btn-xs float-right" onclick="return confirm ('Are you sure you want to Buy?')">Buy</button>
+    </form>
+    </div>
+    </div>
+        <div class="card m-2" style="width: 20rem;">
+    <img class="card-img-top" src="/static/basketball.jpeg" alt="Card image not displaying">
+    <div class="card-body">
+    <h5 class="card-title">Spalding Basketball</h5>
+    <p class="card-text">Price:$50.00 <br> </p>
+    <form action="/" >
+        <button class="btn btn-primary btn-xs float-right" onclick="return confirm ('Are you sure you want to Buy?')">Buy</button>
+    </form>
+    </div>
+    </div>
+</div>
+
+{% endblock %}
