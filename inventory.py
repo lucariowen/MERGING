@@ -31,35 +31,70 @@ class data(db.Model):
 @app.route('/')
 def Index():
     all_data = data.query.all()
+<<<<<<< HEAD
+=======
+
+>>>>>>> e43af79c29e09cbf1a39370be6694f1e4249a500
     return render_template('index.html',  products = all_data)
 
 
 
 @app.route('/insert', methods = ['POST'])
 def insert():
+<<<<<<< HEAD
     if request.method == 'POST':
+=======
+
+    if request.method == 'POST':
+
+>>>>>>> e43af79c29e09cbf1a39370be6694f1e4249a500
         name = request.form['name']
         brand = request.form['brand']
         category = request.form['category']
         quantity = request.form['quantity']
         price = request.form['price']
+<<<<<<< HEAD
         my_data = data(name, brand, category, quantity, price)
         db.session.add(my_data)
         db.session.commit()
         flash("Product Added Successfully")
+=======
+
+
+        my_data = data(name, brand, category, quantity, price)
+        db.session.add(my_data)
+        db.session.commit()
+
+        flash("Product Added Successfully")
+
+>>>>>>> e43af79c29e09cbf1a39370be6694f1e4249a500
         return redirect(url_for('Index'))
 
 @app.route('/update', methods = ['GET', 'POST'])
 def update():
+<<<<<<< HEAD
     if request.method == 'POST':
         my_data = data.query.get(request.form.get('id'))
+=======
+
+    if request.method == 'POST':
+        my_data = data.query.get(request.form.get('id'))
+
+>>>>>>> e43af79c29e09cbf1a39370be6694f1e4249a500
         my_data.name = request.form['name']
         my_data.brand = request.form['brand']
         my_data.category = request.form['category']
         my_data.quantity = request.form['quantity']
         my_data.price = request.form['price']
+<<<<<<< HEAD
         db.session.commit()
         flash("Product Updated Successfully")
+=======
+
+        db.session.commit()
+        flash("Product Updated Successfully")
+
+>>>>>>> e43af79c29e09cbf1a39370be6694f1e4249a500
         return redirect(url_for('Index'))
 
 
@@ -69,6 +104,10 @@ def delete(id):
     db.session.delete(my_data)
     db.session.commit()
     flash("Product Deleted Successfully")
+<<<<<<< HEAD
+=======
+
+>>>>>>> e43af79c29e09cbf1a39370be6694f1e4249a500
     return redirect(url_for('Index'))
 
 @app.route('/index')

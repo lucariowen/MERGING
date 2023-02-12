@@ -10,4 +10,3 @@ application = DispatcherMiddleware(flask_app_login, {
     '/flask_app_rewards': flask_app_rewards,
 })
 
-
