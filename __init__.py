@@ -1,7 +1,7 @@
 from flask import Flask, render_template, url_for, redirect, flash, request
 from flask_sqlalchemy import SQLAlchemy
 from flask_login import UserMixin, login_user, LoginManager, login_required, logout_user, current_user
-from flask_wtf import FlaskForm
+from flask_wtf import FlaskForm, RecaptchaField
 from wtforms import StringField, PasswordField, SubmitField
 from wtforms.validators import InputRequired, Length, ValidationError
 from flask_bcrypt import Bcrypt
@@ -11,6 +11,8 @@ app = Flask(__name__)
 bcrypt = Bcrypt(app)
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///database.db'
 app.config['SECRET_KEY'] = 'thisisasecretkey'
+app.config['RECAPTCHA_PUBLIC_KEY'] = "6LdqlXUkAAAAAHVX8Ax_YuatX0XWzLxvj_tnxWx7"
+app.config['RECAPTCHA_PRIVATE_KEY'] = "6LdqlXUkAAAAAM42XqKH27dw9WQu1kdsM8wF-jgF"
 db = SQLAlchemy(app)
 
 login_manager = LoginManager()
@@ -28,14 +30,18 @@ class User(db.Model, UserMixin):
     username = db.Column(db.String(20), nullable=False, unique=True)
     password = db.Column(db.String(80), nullable=False)
     email = db.Column(db.String(100), unique=True)
+    points = db.Column(db.Integer)
+    ordered = db.Column(db.String)
 
-    def __init__(self, username, password, email=None):
+    def __init__(self, username, password, email=None, points=0, ordered=None):
         self.username = username
         self.password = password
         self.email = email
+        self.points = points
+        self.ordered = ordered
 
     def __repr__(self):
-        return f"User('{self.username}', '{self.email}')"
+        return f"User('{self.username}', '{self.email}', '{self.points}', '{self.ordered}')"
 
 class RegisterForm(FlaskForm):
     username = StringField(validators=[
@@ -43,6 +49,8 @@ class RegisterForm(FlaskForm):
 
     password = PasswordField(validators=[
                              InputRequired(), Length(min=8, max=20)], render_kw={"placeholder": "Password"})
+
+    recaptcha = RecaptchaField()
 
     submit = SubmitField('Register')
 
@@ -59,6 +67,8 @@ class LoginForm(FlaskForm):
 
     password = PasswordField(validators=[
                              InputRequired(), Length(min=8, max=20)], render_kw={"placeholder": "Password"})
+
+    recaptcha = RecaptchaField()
 
     submit = SubmitField('Login')
 

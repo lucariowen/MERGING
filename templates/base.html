@@ -8,7 +8,7 @@
 </head>
 <body>
 <nav style="background-color:#212429;" class="navbar navbar-expand-md navbar-dark">
-  <a class="navbar-brand" href="/"><img src="static/navbarfinal.jpeg" width="200" height="80"></a>
+  <a class="navbar-brand" href="/home"><img src="static/navbarfinal.png" width="200" height="80"></a>
   <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#collapsibleNavbar">
     <span class="navbar-toggler-icon"></span>
   </button>
@@ -18,18 +18,19 @@
         <a class="nav-link" href="/home">Home</a>
       </li>
       <li class="nav-item">
-        <a class="nav-link" href="/">Manage Inventory</a>
+        <a class="nav-link" href="/dashboard">Profile</a>
       </li>
-      <!-- Dropdown -->
-      <li class="nav-item dropdown">
-        <a class="nav-link dropdown-toggle" href="#" id="navbardrop" data-toggle="dropdown">
-          Dropdown link
-        </a>
-        <div class="dropdown-menu">
-          <a class="dropdown-item" href="#">Link 1</a>
-          <a class="dropdown-item" href="#">Link 2</a>
-          <a class="dropdown-item" href="#">Link 3</a>
-        </div>
+      <li class="nav-item">
+        <a class="nav-link" href="/flask_app_inventory/">Update Inventory (SHLD BE ADMIN ONLY)</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="/flask_app_rewards/rewards_shop">Rewards Shop</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="/flask_app_rewards/manage_rewards">Update Rewards (SHLD BE ADMIN ONLY)</a>
+      </li>
+            <li class="nav-item">
+        <a class="nav-link" href="/flask_app_payment/checkout">Checkout</a>
       </li>
       </ul>
     </div>

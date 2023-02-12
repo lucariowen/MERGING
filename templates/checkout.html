@@ -1,0 +1,65 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+{% if firstname %}
+    <h1>Thank you for purchasing {{firstname}} !! Check your <a href="account.html">account</a> for more details</h1>
+{% else %}
+    <h1> Billing Infomation</h1>
+    <form method="post">
+        {{form.csrf_token}}
+        {{form.hidden_tag() }}
+        {{form.firstname.label(class="form-label") }}
+        {{ form.firstname(class="form-control") }}
+        <br>
+        {{form.hidden_tag() }}
+        {{form.lastname.label(class="form-label") }}
+        {{ form.lastname(style='length: 100px;', class="form-control") }}
+        <br>
+        {{form.hidden_tag() }}
+        {{form.email.label(class="form-label") }}
+        {{ form.email(class="form-control") }}
+        <br>
+        {{form.hidden_tag() }}
+        {{form.address.label(class="form-label") }}
+        {{ form.address(class="form-control") }}
+        <br>
+        {{form.hidden_tag() }}
+        {{form.country.label(class="form-label") }}
+        {{ form.country(class="form-control") }}
+        <br>
+        {{form.hidden_tag() }}
+        {{form.postalcode.label(class="form-label") }}
+        {{form.postalcode(class="form-control") }}
+        <br>
+
+        <br>
+        <br>
+        <br>
+        <h1>Credit Card information</h1>
+
+        {{form.hidden_tag() }}
+        {{form.name.label(class="form-label") }}
+        {{form.name(class="form-control") }}
+        <br>
+        {{form.hidden_tag() }}
+        {{form.number.label(class="form-label") }}
+        {{form.number(class="form-control") }}
+        <br>
+        {{form.hidden_tag() }}
+        {{form.date.label(class="form-label") }}
+        {{form.date(class="form-control") }}
+        <br>
+        {{form.hidden_tag() }}
+        {{form.cvv.label(class="form-label") }}
+        {{form.cvv(class="form-control") }}
+        <br>
+        {{form.submit}}
+        </form>
+<br><br><br>
+{% for total_transaction in total_transactions %}
+    {{ total_transaction.id }}. {{ total_transaction.name }} -
+    {{ total_transaction.name.email }}<br>
+{% endfor %}
+{% endif %}
+{% endblock %}

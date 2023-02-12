@@ -33,6 +33,14 @@
   Email: {{ current_user.email }}
 {% endif %}
     <br>
+                        {% if current_user.is_authenticated %}
+  Points: {{ current_user.points }}
+{% endif %}
+    <br>
+                                {% if current_user.is_authenticated %}
+  Orders: {{ current_user.ordered }}
+{% endif %}
+    <br>
     <a href="{{url_for('change')}}">Change Password</a>
     <br>
     <a href="{{url_for('logout')}}">Press here to logout</a>

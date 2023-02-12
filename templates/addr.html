@@ -1,9 +1,5 @@
 {% extends 'base.html' %}
-<<<<<<< HEAD
 {% block title %} Add Reward {% endblock %}
-=======
-{% block title %} Reward Shop {% endblock %}
->>>>>>> e43af79c29e09cbf1a39370be6694f1e4249a500
 {% block body %}
 
 {% with messages = get_flashed_messages(with_categories=true) %}
@@ -17,7 +13,6 @@
   {% endif %}
 {% endwith %}
 
-<<<<<<< HEAD
 <style>
 
 
@@ -36,8 +31,6 @@ label {
 
 </style>
 
-=======
->>>>>>> e43af79c29e09cbf1a39370be6694f1e4249a500
 <h1>Add rewards</h1>
 <!--Add reward form-->
 <form action="" method="post">
@@ -56,19 +49,10 @@ label {
 {{ form.category.label(class="form-label") }}
 {{ form.category(class="form-control") }} <br>
 <br>
-<<<<<<< HEAD
-<a class="btn btn-secondary" href="/manage_rewards">Back</a>
+<a class="btn btn-secondary" href="/flask_app_rewards/manage_rewards">Back</a>
 {{ form.submit(class="btn-btn-secondary", value="Add") }}
 </form>
 
 
-=======
-{{ form.submit(class="btn-btn-secondary") }}
-</form>
-
-{% for ourreward in ourrewards %}
-{{ourreward.id}}-{{ourreward.name}}-{{ourreward.price}}-{{ourreward.quantity}}-{{ourreward.category}} <br>
-{% endfor %}
->>>>>>> e43af79c29e09cbf1a39370be6694f1e4249a500
 
 {% endblock %}

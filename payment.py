@@ -46,20 +46,6 @@ def index():
     return render_template("index.html")
 
 
-#invalid URL
-@app.errorhandler(404)
-def page_not_found (e):
-    return render_template("404.html"), 404
-
-# Internal Server error
-@app.errorhandler(500)
-def page_not_found (e):
-    return render_template("500.html"), 500
-
-# Name page
-
-
-
 @app.route("/checkout", methods=['GET', 'POST'])
 def add_transaction():
     form = NamerForm()
