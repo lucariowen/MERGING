@@ -1,0 +1,216 @@
+<!-- REGISTER PAGE -->
+
+{% extends 'base.html' %}
+{% block title %} Manage Rewards {% endblock %}
+{% block body %}
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Register</title>
+</head>
+
+<body>
+    <h1>Register Page</h1>
+
+    <form method="POST" action="">
+        {{ form.hidden_tag() }}
+        {{ form.username }}
+        {{ form.password }}
+        {{ form.submit }}
+    </form>
+
+    <a href="{{ url_for('login') }}">Already have an account? Log In</a>
+    {% if form.username.errors %}
+    {% for error in form.username.errors %}
+<div class="alert alert-danger alert-dismissible fade show" role="alert">
+  {{error}}
+  <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+</div>
+    {% endfor %}
+{% endif %}
+</body>
+{% endblock %}
+
+<!-- LOGIN PAGE -->
+
+{% extends 'base.html' %}
+{% block title %} Manage Rewards {% endblock %}
+{% block body %}
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login</title>
+</head>
+
+<body>
+    <h1>Login Page</h1>
+
+    <form method="POST" action="">
+        {{ form.hidden_tag() }}
+        {{ form.username }}
+        {{ form.password }}
+        {{ form.submit }}
+    </form>
+
+    <a href="{{ url_for('register') }}">Don't have an account? Sign Up</a>
+ {% with messages = get_flashed_messages(with_categories=true) %}
+      {% if messages %}
+        {% for category, message in messages %}
+           <div class="alert alert-dismissible fade show alert-{{ category }}" role="alert"> {{ message }} <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button></div>
+        {% endfor %}
+      {% endif %}
+    {% endwith %}
+</body>
+{% endblock %}
+
+<!-- CHANGE PASSWORD -->
+{% extends 'base.html' %}
+{% block title %} Manage Rewards {% endblock %}
+{% block body %}
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Change Password</title>
+</head>
+<div class="jumbotron p-3">
+    <div class="well text-center">
+
+        <h1>Change Password</h1>
+
+    </div>
+
+
+</div>
+
+<body>
+    <h2>Your Profile Details:</h2>
+    {% if current_user.is_authenticated %}
+  Username: {{ current_user.username }}
+{% endif %}
+    <br>
+        {% if current_user.is_authenticated %}
+  ID: {{ current_user.id }}
+{% endif %}
+    <br>
+        {% if current_user.is_authenticated %}
+  Email: {{ current_user.email }}
+{% endif %}
+    <br>
+    <form method="POST" action="">
+        {{ form.hidden_tag() }}
+        {{ form.newpass }}
+        {{ form.submit }}
+    </form>
+    <br>
+ {% with messages = get_flashed_messages(with_categories=true) %}
+      {% if messages %}
+        {% for category, message in messages %}
+           <div class="alert alert-dismissible fade show alert-{{ category }}" role="alert"> {{ message }} <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button></div>
+        {% endfor %}
+      {% endif %}
+    {% endwith %}
+</body>
+{% endblock %}
+
+<!-- DELETE EMAIL -->
+
+{% extends 'base.html' %}
+{% block title %} Manage Rewards {% endblock %}
+{% block body %}
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<div class="jumbotron p-3">
+    <div class="well text-center">
+
+        <h1>Delete Email</h1>
+
+    </div>
+
+
+</div>
+
+<body>
+    <h2>Current Email Address is {{ current_user.email }}</h2>
+    <h2>To delete this email address, simply type in DELETE in the form below.</h2>
+    <!-- EMAIL CAN BE REPLACED, DELETION IS JUST FOR PPL WHO WANT THEIR EMAIL DATA GONE -->
+        <form action="#" method="POST">
+        <input type="text" name="delete" placeholder="type DELETE here">
+        <input type="submit" value="submit">
+    </form>
+    <br>
+ {% with messages = get_flashed_messages(with_categories=true) %}
+      {% if messages %}
+        {% for category, message in messages %}
+           <div class="alert alert-dismissible fade show alert-{{ category }}" role="alert"> {{ message }} <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button></div>
+        {% endfor %}
+      {% endif %}
+    {% endwith %}
+</body>
+{% endblock %}
+
+<!-- PROFILE PAGE -->
+
+<div class="jumbotron p-3">
+    <div class="well text-center">
+
+        <h1>Your Profile</h1>
+
+    </div>
+
+
+</div>
+
+<body>
+    <h2>Your Profile Details:</h2>
+    {% if current_user.is_authenticated %}
+  Username: {{ current_user.username }}
+{% endif %}
+    <br>
+        {% if current_user.is_authenticated %}
+  ID: {{ current_user.id }}
+{% endif %}
+    <br>
+        {% if current_user.is_authenticated %}
+  Email: {{ current_user.email }}
+{% endif %}
+    <br>
+    <a href="{{url_for('change')}}">Change Password</a>
+    <br>
+    <a href="{{url_for('logout')}}">Press here to logout</a>
+    <br>
+    <a href="{{url_for('delete')}}">Press here to delete email</a>
+    <br>
+    {% if current_user.id == 7 %}
+    <a href="{{url_for('admin')}}">Admin Page</a>
+    {% endif %}
+    <br>
+    <form action="#" method="POST">
+        <input type="email" name="email" placeholder="Add an Email Address">
+        <input type="submit" value="submit">
+    </form>
+    <br>
+ {% with messages = get_flashed_messages(with_categories=true) %}
+      {% if messages %}
+        {% for category, message in messages %}
+           <div class="alert alert-dismissible fade show alert-{{ category }}" role="alert"> {{ message }} <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button></div>
+        {% endfor %}
+      {% endif %}
+    {% endwith %}
+</body>
+{% endblock %}
+
+
+
+
