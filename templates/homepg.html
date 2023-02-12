@@ -1,0 +1,60 @@
+{% extends 'base.html' %}
+{% block title %} Home {% endblock %}
+{% block body %}
+
+<style>
+    .card-img-top {
+    width: 100%;
+    height: 20vw;
+    object-fit: cover;
+    }
+</style>
+
+<!-- Image header -->
+    <img src="/static/nikeshoe.jpeg" alt="Jeans" style="max-width:100%;height:auto; margin:auto;">
+      <h1 style="text-align:center;">New Arrivals</h1>
+
+<div class="row" id="index0" style="margin:auto;padding-left:150px;">
+    <div class="card m-2" style="width: 20rem;">
+    <img class="card-img-top" src="/static/shoe.jpeg" onerror="this.onerror=null; this.src='placeholder.jpg'" alt="placeholder" width="100" height="120">
+    <div class="card-body">
+    <h5 class="card-title">Air Force 1</h5>
+    <p class="card-text">Price:$100.00 <br> </p>
+    <form action="/" >
+        <button class="btn btn-primary btn-xs float-right" onclick="return confirm ('Are you sure you want to Buy?')">Buy</button>
+    </form>
+    </div>
+    </div>
+    <div class="card m-2" style="width: 20rem;">
+    <img class="card-img-top" src="/static/shirt.jpeg" alt="Card image not displaying">
+    <div class="card-body">
+    <h5 class="card-title">Dri-Fit Shirt</h5>
+    <p class="card-text">Price:$40.00 <br> </p>
+    <form action="/" >
+        <button class="btn btn-primary btn-xs float-right"  onclick="return confirm ('Are you sure you want to Buy?')">Buy</button>
+    </form>
+    </div>
+    </div>
+        <div class="card m-2" style="width: 20rem;">
+    <img class="card-img-top" src="/static/pants.jpeg" alt="Card image not displaying">
+    <div class="card-body">
+    <h5 class="card-title">Nike Pants</h5>
+    <p class="card-text">Price:$40.00 <br> </p>
+    <form action="/">
+        <button class="btn btn-primary btn-xs float-right" onclick="return confirm ('Are you sure you want to Buy?')">Buy</button>
+    </form>
+    </div>
+    </div>
+        <div class="card m-2" style="width: 20rem;">
+    <img class="card-img-top" src="/static/basketball.jpeg" alt="Card image not displaying">
+    <div class="card-body">
+    <h5 class="card-title">Spalding Basketball</h5>
+    <p class="card-text">Price:$50.00 <br> </p>
+    <form action="/" >
+        <button class="btn btn-primary btn-xs float-right" onclick="return confirm ('Are you sure you want to Buy?')">Buy</button>
+    </form>
+    </div>
+    </div>
+</div>
+
+{% endblock %}
