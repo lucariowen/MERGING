@@ -1,8 +1,61 @@
 {% extends 'base.html' %}
+<<<<<<< HEAD
+{% block title %} Reward Management {% endblock %}
+{% block body %}
+
+{% with messages = get_flashed_messages(with_categories=true) %}
+  {% if messages %}
+    {% for category, message in messages %}
+       <div class="alert alert-dismissible fade show alert-{{ category }}" role="alert"> {{ message }}
+           <button type="button" class="close" data-dismiss="alert" aria-label="close">
+            <span aria-hidden="true">x</span></button>
+       </div>
+    {% endfor %}
+  {% endif %}
+{% endwith %}
+
+<!--<a href="/add_rewards">Add rewards</a>-->
+<br>
+<div class="container">
+    <div class="row">
+        <div class="col md-12">
+            <div class="jumbotron p-3">
+                <h2>Manage Rewards<a class="btn btn-success float-right" href="/add_rewards">Add New Rewards</a></h2>
+
+<table class="table table-hover table-dark">
+<tr>
+    <th>NAME</th>
+    <th>PRICE</th>
+    <th>QUANTITY</th>
+    <th>CATEGORY</th>
+    <th>ACTION</th>
+</tr>
+
+{% for ourreward in ourrewards %}
+<tr>
+    <td>{{ourreward.name}}</td>
+    <td>{{ourreward.price}} points</td>
+    <td>{{ourreward.quantity}}</td>
+    <td>{{ourreward.category}}</td>
+    <td>
+<a class="btn btn-warning" href="{{url_for('updaterewards',id=ourreward.id)}}">Update</a>
+<a class="btn btn-danger" href="{{url_for('deleterewards',id=ourreward.id)}}">Delete</a><br>
+
+    </td>
+</tr>
+{% endfor %}
+</table>
+
+            </div>
+        </div>
+    </div>
+</div>
+=======
 {% block title %} Reward Shop {% endblock %}
 {% block body %}
 
 <a href="/add_rewards">add rewards</a>
+>>>>>>> e43af79c29e09cbf1a39370be6694f1e4249a500
 
 
 {% endblock %}
