@@ -405,7 +405,16 @@ def rmanage():
         flash("Sorry, only admins are allowed access here!", 'info')
         return redirect(url_for('shop'))
 
-
+@app.route('/manage_rewards/sort_desc')
+@login_required
+def rmanage_desc():
+    id = current_user.id
+    if id == 1:
+        ourrewards = Rewards.query.order_by(Rewards.date_added.desc())
+        return render_template('rmanage.html', ourrewards=ourrewards)
+    else:
+        flash("Sorry, only admins are allowed access here!", 'info')
+        return redirect(url_for('shop'))
 
 @app.route('/rewards_shop')
 @login_required
