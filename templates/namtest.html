@@ -1,16 +1,15 @@
 {% extends 'base.html' %}
 
-{% block content %}
-{% with messages = get_flashed_messages() %}
+{% block body %}
+{% with messages = get_flashed_messages(with_categories=true) %}
   {% if messages %}
-    <ul class=flashes>
-    {% for message in messages %}
-      <li>{{ message }}</li>
+    {% for category, message in messages %}
+       <div class="alert alert-dismissible fade show alert-{{ category }}" role="alert"> {{ message }}
+           <button type="button" class="close" data-dismiss="alert" aria-label="close">
+            <span aria-hidden="true">x</span></button>
+       </div>
     {% endfor %}
-    </ul>
   {% endif %}
 {% endwith %}
-{% for getname in findname %}
-<h1 class="float-center">Thank you! View your Transaction <a href="">here</a></h1>
-{% endfor %}
+<h1 class="float-center">Thank you! View your Transaction <a href="/dashboard">here</a></h1>
 {% endblock %}

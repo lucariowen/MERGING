@@ -105,7 +105,7 @@ def register():
 @app.route('/login', methods=['POST', 'GET'])
 def login():
     if current_user.is_authenticated:
-        return redirect(url_for('loginhome'))
+        return redirect(url_for('shop'))
     form = LoginForm()
     if form.validate_on_submit():
         user = User.query.filter_by(username=form.username.data).first()
@@ -113,7 +113,7 @@ def login():
             if bcrypt.check_password_hash(user.password, form.password.data):
                 login_user(user)
                 flash("Login Successful!", 'success')
-                return redirect(url_for('loginhome'))
+                return redirect(url_for('shop'))
             else:
                 flash("Wrong Username/Password", 'danger')
                 return render_template('login.html', form=form)
