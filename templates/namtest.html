@@ -1,0 +1,16 @@
+{% extends 'base.html' %}
+
+{% block content %}
+{% with messages = get_flashed_messages() %}
+  {% if messages %}
+    <ul class=flashes>
+    {% for message in messages %}
+      <li>{{ message }}</li>
+    {% endfor %}
+    </ul>
+  {% endif %}
+{% endwith %}
+{% for getname in findname %}
+<h1 class="float-center">Thank you! View your Transaction <a href="">here</a></h1>
+{% endfor %}
+{% endblock %}

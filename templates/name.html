@@ -1,0 +1,47 @@
+{% extends 'base.html' %}
+
+{% block body %}
+
+    <h1>Checkout Page</h1>
+    <h1>Billing Information</h1>
+    <form method="POST" action="/flask_app_payment/name" >
+        {{ form.hidden_tag() }}
+        {{ form.address.label }}
+        {{ form.address() }}
+        <br>
+        {{ form.hidden_tag() }}
+        {{ form.postalcode.label }}
+        {{ form.postalcode() }}
+        <br>
+        {{ form.hidden_tag() }}
+        {{ form.number.label }}
+        {{ form.number() }}
+        <br>
+        <br>
+        <br>
+        <br>
+        <h1>Credit Card Information</h1>
+        {{ form.hidden_tag() }}
+        {{ form.name.label }}
+        {{ form.name() }}
+        <br>
+        {{ form.hidden_tag() }}
+        {{ form.cnumber.label }}
+        {{ form.cnumber() }}
+        <br>
+        {{ form.hidden_tag() }}
+        {{ form.month.label }}
+        {{ form.month() }}
+        <br>
+        {{ form.hidden_tag() }}
+        {{ form.year.label }}
+        {{ form.year() }}
+        <br>
+        {{ form.hidden_tag() }}
+        {{ form.cvv.label }}
+        {{ form.cvv() }}
+        <br>
+        {{ form.submit() }}
+    </form>
+
+{% endblock %}
