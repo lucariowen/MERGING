@@ -100,7 +100,7 @@ class ChangePass(FlaskForm):
 @app.route('/register', methods=['GET', 'POST'])
 def register():
     if current_user.is_authenticated:
-        return redirect(url_for('loginhome'))
+        return redirect(url_for('shop'))
     form = RegisterForm()
 
     if form.validate_on_submit():
@@ -116,7 +116,7 @@ def register():
 @app.route('/login', methods=['POST', 'GET'])
 def login():
     if current_user.is_authenticated:
-        return redirect(url_for('loginhome'))
+        return redirect(url_for('shop'))
     form = LoginForm()
     if form.validate_on_submit():
         user = User.query.filter_by(username=form.username.data).first()
@@ -124,7 +124,7 @@ def login():
             if bcrypt.check_password_hash(user.password, form.password.data):
                 login_user(user)
                 flash("Login Successful!", 'success')
-                return redirect(url_for('loginhome'))
+                return redirect(url_for('shop'))
             else:
                 flash("Wrong Username/Password", 'danger')
                 return render_template('login.html', form=form)
@@ -174,6 +174,7 @@ def error():
     return render_template('error.html')
 
 @app.route('/users')
+@login_required
 def users():
     return render_template('users.html', values=User.query.all())
 
@@ -221,7 +222,7 @@ def admin():
         return render_template('admin.html', values=User.query.all())
     else:
         flash("Sorry, only admins are allowed access here!", 'info')
-        return redirect(url_for('loginhome'))
+        return redirect(url_for('shop'))
 
 @app.route('/profileexample')
 def profileexample():
@@ -255,9 +256,15 @@ class inventoryform(FlaskForm):
 
 
 @app.route('/index')
+@login_required
 def index():
-    items = Inventory.query.order_by(Inventory.date_added)
-    return render_template('index.html', items=items)
+    id = current_user.id
+    if id == 1:
+        items = Inventory.query.order_by(Inventory.date_added)
+        return render_template('index.html', items=items)
+    else:
+        flash("Sorry, only admins are allowed access here!", 'info')
+        return redirect(url_for('shop'))
 
 
 @app.route('/')
@@ -267,6 +274,7 @@ def shop():
 
 
 @app.route('/add_items', methods=['GET', 'POST'])
+@login_required
 def additems():
     name = None
     form = inventoryform()
@@ -307,6 +315,7 @@ def additems():
 
 
 @app.route('/update_items/<int:id>', methods=['GET', 'POST'])
+@login_required
 def updateitems(id):
     form = inventoryform()
     update = Inventory.query.get_or_404(id)
@@ -347,6 +356,7 @@ def updateitems(id):
 
 
 @app.route('/delete_items/<int:id>')
+@login_required
 def deleteitems(id):
     delete = Inventory.query.get_or_404(id)
     name = None
@@ -385,9 +395,16 @@ class rewardform(FlaskForm):
     submit = SubmitField('Submit', validators=[DataRequired()])
 
 @app.route('/manage_rewards')
+@login_required
 def rmanage():
-    ourrewards = Rewards.query.order_by(Rewards.date_added)
-    return render_template('rmanage.html', ourrewards=ourrewards)
+    id = current_user.id
+    if id == 1:
+        ourrewards = Rewards.query.order_by(Rewards.date_added)
+        return render_template('rmanage.html', ourrewards=ourrewards)
+    else:
+        flash("Sorry, only admins are allowed access here!", 'info')
+        return redirect(url_for('shop'))
+
 
 
 @app.route('/rewards_shop')
@@ -398,6 +415,7 @@ def rshop():
 
 
 @app.route('/add_rewards', methods=['GET', 'POST'])
+@login_required
 def addrewards():
     name = None
     form = rewardform()
@@ -438,6 +456,7 @@ def addrewards():
 
 
 @app.route('/update_rewards/<int:id>', methods=['GET', 'POST'])
+@login_required
 def updaterewards(id):
     form = rewardform()
     update = Rewards.query.get_or_404(id)
@@ -478,6 +497,7 @@ def updaterewards(id):
 
 
 @app.route('/delete_rewards/<int:id>')
+@login_required
 def deleterewards(id):
     delete = Rewards.query.get_or_404(id)
     name = None
@@ -506,12 +526,14 @@ class NamerForm(FlaskForm):
 
 
 @app.route("/name", methods=['GET', 'POST'])
+@login_required
 def name():
 
     form = NamerForm()
     if form.validate_on_submit():
-        form.address.data = ''
-        form.number.data = ''
+        current_user.contact = form.number.data
+        current_user.address = form.address.data
+        db.session.commit()
         form.postalcode.data = ''
         form.name.data = ''
         form.cnumber.data = ''
@@ -522,16 +544,19 @@ def name():
     return render_template("name.html" , form = form)
 
 @app.route('/namtest')
+@login_required
 def namtest():
 
     return render_template('namtest.html')
 
 @app.route('/cart')
+@login_required
 def cart():
     return render_template('cart.html')
 
 
 @app.route('/delete_item/<int:id>')
+@login_required
 def deleteitem(id):
     delete = Inventory.query.get_or_404(id)
     name = None

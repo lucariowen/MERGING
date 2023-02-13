@@ -20,18 +20,27 @@
       <li class="nav-item">
         <a class="nav-link" href="/dashboard">Profile</a>
       </li>
+          {% if current_user.id == 1 %}
       <li class="nav-item">
-        <a class="nav-link" href="/index">Update Inventory (SHLD BE ADMIN ONLY)</a>
+        <a class="nav-link" href="/index">Update Inventory</a>
       </li>
+          {% endif %}
       <li class="nav-item">
         <a class="nav-link" href="/rewards_shop">Rewards Shop</a>
       </li>
+          {% if current_user.id == 1 %}
       <li class="nav-item">
-        <a class="nav-link" href="/manage_rewards">Update Rewards (SHLD BE ADMIN ONLY)</a>
+        <a class="nav-link" href="/manage_rewards">Update Rewards</a>
       </li>
+          {% endif %}
             <li class="nav-item">
-        <a class="nav-link" href="/name">Checkout</a>
+        <a class="nav-link" href="/cart">Cart</a>
       </li>
+                {% if current_user.id == 1 %}
+      <li class="nav-item">
+        <a class="nav-link" href="/admin">All User Info</a>
+      </li>
+          {% endif %}
       </ul>
     </div>
   </nav>

@@ -1,13 +1,16 @@
 {% extends 'base.html' %}
 {% block title %} Manage Rewards {% endblock %}
 {% block body %}
- {% with messages = get_flashed_messages(with_categories=true) %}
-      {% if messages %}
-        {% for category, message in messages %}
-           <div class="alert alert-dismissible fade show alert-{{ category }}" role="alert"> {{ message }} <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button></div>
-        {% endfor %}
-      {% endif %}
-    {% endwith %}
+{% with messages = get_flashed_messages(with_categories=true) %}
+  {% if messages %}
+    {% for category, message in messages %}
+       <div class="alert alert-dismissible fade show alert-{{ category }}" role="alert"> {{ message }}
+           <button type="button" class="close" data-dismiss="alert" aria-label="close">
+            <span aria-hidden="true">x</span></button>
+       </div>
+    {% endfor %}
+  {% endif %}
+{% endwith %}
 {% if form.recaptcha.errors %}
     {% for error in form.recaptcha.errors %}
 <div class="alert alert-danger alert-dismissible fade show" role="alert">
@@ -44,8 +47,9 @@
                     </div>
                   </div>
                 {{ form.recaptcha }}
+                    <br>
                   <div class="d-flex justify-content-center mx-4 mb-3 mb-lg-4">
-                    {{ form.submit }}
+                    {{ form.submit (class="btn btn-primary btn-xs")}}
                   </div>
     <a href="{{ url_for('register') }}">Don't have an account? Sign Up</a>
                 </form>

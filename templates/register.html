@@ -46,8 +46,9 @@
                     </div>
                   </div>
                     {{ form.recaptcha }}
+                    <br>
                   <div class="d-flex justify-content-center mx-4 mb-3 mb-lg-4">
-                    {{ form.submit }}
+                    {{ form.submit (class="btn btn-primary btn-xs")}}
                   </div>
                     <a href="{{ url_for('login') }}">Already have an account? Login</a>
                 </form>

@@ -1,13 +1,16 @@
 {% extends 'base.html' %}
 {% block title %} Manage Rewards {% endblock %}
 {% block body %}
- {% with messages = get_flashed_messages(with_categories=true) %}
-      {% if messages %}
-        {% for category, message in messages %}
-           <div class="alert alert-dismissible fade show alert-{{ category }}" role="alert"> {{ message }} <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button></div>
-        {% endfor %}
-      {% endif %}
-    {% endwith %}
+{% with messages = get_flashed_messages(with_categories=true) %}
+  {% if messages %}
+    {% for category, message in messages %}
+       <div class="alert alert-dismissible fade show alert-{{ category }}" role="alert"> {{ message }}
+           <button type="button" class="close" data-dismiss="alert" aria-label="close">
+            <span aria-hidden="true">x</span></button>
+       </div>
+    {% endfor %}
+  {% endif %}
+{% endwith %}
   <div class="container h-100">
     <div class="row d-flex justify-content-center align-items-center h-100">
       <div class="col-lg-12 col-xl-11">
@@ -21,8 +24,8 @@
                   <div align="left">
     <h2>Data of all registered users</h2>
     {% for item in values %}
-        <p>ID: {{item.id}}, Name: {{item.username}}, Email: {{item.email}}, Password: {{item.password}}, Points: {{item.points}}, Orders: {{item.ordered}},
-            Address: {{item.address}}, Contact: {{item.contact}}, Rewards: {{item.rewards}}, Rewards Address: {{item.rewardsaddress}}</p>
+        <p>ID: {{item.id}} <br> Name: {{item.username}} <br> Email: {{item.email}} <br> Password: {{item.password}} <br> Points: {{item.points}} <br> Orders: {{item.ordered}}
+            <br> Address: {{item.address}} <br> Contact: {{item.contact}} <br> Rewards: {{item.rewards}} <br> Rewards Address: {{item.rewardsaddress}}</p>
     {% endfor %}
                       </div>
                                 </div>
