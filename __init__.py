@@ -32,20 +32,20 @@ class User(db.Model, UserMixin):
     email = db.Column(db.String(100), unique=True)
     points = db.Column(db.Integer)
     ordered = db.Column(db.String)
-    contact = db.Column(db.String)
     address = db.Column(db.String)
+    contact = db.Column(db.String)
 
-    def __init__(self, username, password, email=None, points=0, ordered=None, contact=None, address=None):
+    def __init__(self, username, password, email=None, points=0, ordered=None, address=None, contact=None):
         self.username = username
         self.password = password
         self.email = email
         self.points = points
         self.ordered = ordered
-        self.contact = contact
         self.address = address
+        self.contact = contact
 
     def __repr__(self):
-        return f"User('{self.username}', '{self.email}', '{self.points}', '{self.ordered}'), '{self.contact}', '{self.address}'))"
+        return f"User('{self.username}', '{self.email}', '{self.points}', '{self.ordered}', '{self.address}', '{self.contact}')"
 
 class RegisterForm(FlaskForm):
     username = StringField(validators=[

@@ -1,0 +1,62 @@
+{% extends 'base.html' %}
+{% block title %} Add Items {% endblock %}
+{% block body %}
+
+{% with messages = get_flashed_messages(with_categories=true) %}
+  {% if messages %}
+    {% for category, message in messages %}
+       <div class="alert alert-dismissible fade show alert-{{ category }}" role="alert"> {{ message }}
+           <button type="button" class="close" data-dismiss="alert" aria-label="close">
+            <span aria-hidden="true">x</span></button>
+       </div>
+    {% endfor %}
+  {% endif %}
+{% endwith %}
+
+<style>
+
+
+input[type=text], select, textarea {
+  width: 100%;
+  padding: 12px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  resize: vertical;
+}
+
+label {
+  padding: 12px 12px 12px 0;
+  display: inline-block;
+}
+
+</style>
+
+<h1>Add items</h1>
+<!--Add reward form-->
+<form action="" method="post" enctype="multipart/form-data">
+<!-- CSRF token protect the form against CSRF attacks -->
+{{ form.hidden_tag() }}
+
+{{ form.name.label(class="form-label") }}
+{{ form.name(class="form-control") }} <br>
+
+{{ form.price.label(class="form-label") }}
+{{ form.price(class="form-control") }} <br>
+
+{{ form.quantity.label(class="form-label") }}
+{{ form.quantity(class="form-control") }} <br>
+
+{{ form.category.label(class="form-label") }}
+{{ form.category(class="form-control") }} <br>
+
+{{ form.rewardpic.label(class="form-label") }}
+{{ form.rewardpic(class="form-control") }} <br>
+
+<br>
+<a class="btn btn-secondary" href="/flask_app_inventory/index">Back</a>
+{{ form.submit(class="btn-btn-secondary", value="Add") }}
+</form>
+
+
+
+{% endblock %}

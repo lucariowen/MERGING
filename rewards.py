@@ -48,7 +48,7 @@ class rewardform(FlaskForm):
 
 @app.route('/')
 def home():
-    return render_template("homepg.html")
+    return render_template("shop.html")
 
 
 @app.route('/manage_rewards')
@@ -136,7 +136,7 @@ def updaterewards(id):
         except AttributeError:
             rshop_db.session.rollback()
             flash('Error! Please insert an image', 'danger')
-            return render_template('addr.html', form=form, update=update)
+            return render_template('updater.html', form=form, update=update)
 
     else:
         pass
