@@ -4,11 +4,18 @@ from wtforms import StringField, IntegerField, FloatField, SubmitField
 from wtforms.validators import DataRequired
 from flask_sqlalchemy import SQLAlchemy
 from datetime import datetime
-from sqlalchemy.exc import IntegrityError
+from sqlalchemy.exc import IntegrityError, OperationalError
+from flask_wtf.file import FileField
+from werkzeug.utils import secure_filename
+import uuid as uuid
+import os
+import pytz
 
 app = Flask(__name__)
 app.config['SECRET_KEY'] = 's'
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///rshop.db'
+UPLOAD_FOLDER = 'static/uploads/'
+app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 rshop_db = SQLAlchemy(app)
 
 
@@ -18,7 +25,8 @@ class Rewards(rshop_db.Model):
     price = rshop_db.Column(rshop_db.Integer, nullable=False)
     quantity = rshop_db.Column(rshop_db.Integer, nullable=False)
     category = rshop_db.Column(rshop_db.String(100), nullable=False)
-    date_added = rshop_db.Column(rshop_db.DateTime, default=datetime.utcnow)
+    date_added = rshop_db.Column(rshop_db.DateTime, default=datetime.now())
+    rewardpic = rshop_db.Column(rshop_db.String(), nullable=False)
 
     def __repr__(self):
         return '<Name %r>' % self.name
@@ -34,9 +42,8 @@ class rewardform(FlaskForm):
     price = IntegerField('Price', validators=[DataRequired()])
     quantity = IntegerField('Quantity', validators=[DataRequired()])
     category = StringField('Category', validators=[DataRequired()])
-    quantity=IntegerField('Quantity', validators=[DataRequired()])
-    category=StringField('Category', validators=[DataRequired()])
-    submit = SubmitField('Submit')
+    rewardpic = FileField("Reward Image")
+    submit = SubmitField('Submit', validators=[DataRequired()])
 
 
 @app.route('/')
@@ -62,23 +69,33 @@ def addrewards():
     form = rewardform()
     if form.validate_on_submit():
         # reward = Rewards.query.filter_by(name=form.name.data)
-        reward = Rewards(name=form.name.data, price=form.price.data, quantity=form.quantity.data,
-                         category=form.category.data)
-        rshop_db.session.add(reward)
         try:
+            rewardpic = form.rewardpic.data
+            # Pic Name
+            pic_filename = secure_filename(rewardpic.filename)
+            # Set UUID, str to set as string to save in rshop_db
+            pic_name = str(uuid.uuid1()) + '_' + pic_filename
+            # Save pic
+            saver = form.rewardpic.data
+            saver.save(os.path.join(app.config['UPLOAD_FOLDER'], pic_name))
+
+            reward = Rewards(name=form.name.data, price=form.price.data, quantity=form.quantity.data,
+                             category=form.category.data, rewardpic=pic_name)
+
+            rshop_db.session.add(reward)
             rshop_db.session.commit()
             name = form.name.data
-            # form.name.data = ''
-            # form.price.data = ''
-            # form.quantity.data=''
-            # form.category.data=''
             form = rewardform(formdata=None)
             flash('Reward Added Successfully', 'success')
             return render_template('addr.html', name=name, form=form)
 
         except IntegrityError:
             rshop_db.session.rollback()
-            flash('Error! Name already exists in database', 'danger')
+            flash('Error! Name has already been used', 'danger')
+            return render_template('addr.html', name=name, form=form)
+        except AttributeError:
+            rshop_db.session.rollback()
+            flash('Error! Please insert an image', 'danger')
             return render_template('addr.html', name=name, form=form)
     else:
         pass
@@ -96,6 +113,17 @@ def updaterewards(id):
         update.quantity = request.form['quantity']
         update.category = request.form['category']
 
+        update.rewardpic = request.files['rewardpic']
+
+        # update.rewardpic.save(os.path.join(app.config['UPLOAD_FOLDER'], pic_name))
+
+        pic_filename = secure_filename(update.rewardpic.filename)
+        pic_name = str(uuid.uuid1()) + '_' + pic_filename
+        saver = request.files['rewardpic']
+        saver.save(os.path.join(app.config['UPLOAD_FOLDER'], pic_name))
+
+        update.rewardpic = pic_name
+
         try:
             rshop_db.session.commit()
             flash('Updated Successfully', 'success')
@@ -103,8 +131,12 @@ def updaterewards(id):
 
         except IntegrityError:
             rshop_db.session.rollback()
-            flash('Error! Name already exists in database', 'danger')
+            flash('Error! Name has already been used', 'danger')
             return render_template('updater.html', form=form, update=update)
+        except AttributeError:
+            rshop_db.session.rollback()
+            flash('Error! Please insert an image', 'danger')
+            return render_template('addr.html', form=form, update=update)
 
     else:
         pass
@@ -127,14 +159,6 @@ def deleterewards(id):
         flash('Error! There was a problem deleting the reward''danger')
         return render_template('rmanage.html', name=name, form=form, ourrewards=ourrewards)
 
-    #     reward = Rewards(name=form.name.data, price=form.price.data,quantity=form.quantity.data,category=form.category.data)
-    #     rshop_db.session.add(reward)
-    #     rshop_db.session.commit()
-    #     name = form.name.data
-    #     form = rewardform(formdata=None)
-    #     flash('Reward Added Successfully', 'success')
-    # ourrewards = Rewards.query.order_by(Rewards.date_added)
-    # return render_template('addr.html', name=name, form=form, ourrewards=ourrewards)
 
 if __name__ == '__main__':
     app.run(debug=True)
