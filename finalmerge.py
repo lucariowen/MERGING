@@ -44,8 +44,10 @@ class User(db.Model, UserMixin):
     ordered = db.Column(db.String)
     address = db.Column(db.String)
     contact = db.Column(db.String)
+    rewards = db.Column(db.String)
+    rewardsaddress = db.Column(db.String)
 
-    def __init__(self, username, password, email=None, points=0, ordered=None, address=None, contact=None):
+    def __init__(self, username, password, email=None, points=0, ordered=None, address=None, contact=None, rewards=None, rewardsaddress=None):
         self.username = username
         self.password = password
         self.email = email
@@ -53,9 +55,11 @@ class User(db.Model, UserMixin):
         self.ordered = ordered
         self.address = address
         self.contact = contact
+        self.rewards = rewards
+        self.rewardsaddress = rewardsaddress
 
     def __repr__(self):
-        return f"User('{self.username}', '{self.email}', '{self.points}', '{self.ordered}', '{self.address}', '{self.contact}')"
+        return f"User('{self.username}', '{self.email}', '{self.points}', '{self.ordered}', '{self.address}', '{self.contact}', '{self.rewards}', '{self.rewardsaddress}')"
 
 class RegisterForm(FlaskForm):
     username = StringField(validators=[

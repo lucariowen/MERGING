@@ -49,6 +49,14 @@
   Address: {{ current_user.address }}
 {% endif %}
     <br>
+                        {% if current_user.is_authenticated %}
+  Rewards: {{ current_user.rewards }}
+{% endif %}
+    <br>
+                        {% if current_user.is_authenticated %}
+  Rewards Address: {{ current_user.rewardsaddress }}
+{% endif %}
+    <br>
     <a href="{{url_for('change')}}">Change Password</a>
     <br>
     <a href="{{url_for('logout')}}">Press here to logout</a>
