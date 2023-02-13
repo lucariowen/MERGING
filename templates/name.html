@@ -6,42 +6,45 @@
     <h1>Billing Information</h1>
     <form method="POST" action="/name" >
         {{ form.hidden_tag() }}
-        {{ form.address.label }}
-        {{ form.address() }}
+        {{ form.address.label(class="form-label") }}
+        {{ form.address(style='length: 100px;', class="form-control") }}
         <br>
         {{ form.hidden_tag() }}
-        {{ form.postalcode.label }}
-        {{ form.postalcode() }}
+        {{ form.postalcode.label(class="form-label") }}
+        {{ form.postalcode(style='length: 100px;', class="form-control") }}
         <br>
         {{ form.hidden_tag() }}
-        {{ form.number.label }}
-        {{ form.number() }}
+        {{ form.number.label(class="form-label") }}
+        {{ form.number(style='length: 100px;', class="form-control") }}
         <br>
         <br>
         <br>
         <br>
         <h1>Credit Card Information</h1>
         {{ form.hidden_tag() }}
-        {{ form.name.label }}
-        {{ form.name() }}
+        {{ form.name.label(class="form-label") }}
+        {{ form.name(style='length: 100px;', class="form-control") }}
         <br>
         {{ form.hidden_tag() }}
-        {{ form.cnumber.label }}
-        {{ form.cnumber() }}
+        {{ form.cnumber.label(class="form-label") }}
+        {{ form.cnumber(style='length: 100px;', class="form-control") }}
         <br>
         {{ form.hidden_tag() }}
-        {{ form.month.label }}
-        {{ form.month() }}
+        {{ form.month.label(class="form-label") }}
+        {{ form.month(style='length: 50px;') }}
         <br>
         {{ form.hidden_tag() }}
-        {{ form.year.label }}
-        {{ form.year() }}
+        {{ form.year.label(class="form-label") }}
+        {{ form.year(style='length: 50px;') }}
         <br>
         {{ form.hidden_tag() }}
-        {{ form.cvv.label }}
-        {{ form.cvv() }}
+        {{ form.cvv.label(class="form-label")}}
+        {{ form.cvv(style='length: 100px;', class="form-control") }}
         <br>
-        {{ form.submit() }}
+        <br>
+        {{ form.submit(class="btn-btn-secondary, float-right") }}
+        <br>
+        <br>
     </form>
 
 {% endblock %}
