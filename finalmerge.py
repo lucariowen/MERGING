@@ -1,5 +1,5 @@
 from flask import Flask, render_template, url_for, redirect, flash, request
-from flask_sqlalchemy import SQLAlchemy
+from flask_sqlalchemy import SQLAlchemy, query, record_queries
 from flask_login import UserMixin, login_user, LoginManager, login_required, logout_user, current_user
 from flask_wtf import FlaskForm, RecaptchaField
 from wtforms import StringField, PasswordField, SubmitField, FloatField, IntegerField, DateField, TextAreaField, EmailField, SelectField, validators
@@ -12,12 +12,16 @@ from flask_wtf.file import FileField
 from werkzeug.utils import secure_filename
 import uuid as uuid
 import os
+import random
+
+# from sqlalchemy import create_engine, Column, Integer, String, select
+# from sqlalchemy.orm import sessionmaker, declarative_base
 
 app = Flask(__name__)
 bcrypt = Bcrypt(app)
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///database.db'
-app.config['SQLALCHEMY_BINDS'] = {'inventory' : 'sqlite:///data.db',
-                                  'rewards' : 'sqlite:///rshop.db'}
+app.config['SQLALCHEMY_BINDS'] = {'inventory': 'sqlite:///data.db',
+                                  'rewards': 'sqlite:///rshop.db'}
 app.config['SECRET_KEY'] = 'thisisasecretkey'
 app.config['RECAPTCHA_PUBLIC_KEY'] = "6LdqlXUkAAAAAHVX8Ax_YuatX0XWzLxvj_tnxWx7"
 app.config['RECAPTCHA_PRIVATE_KEY'] = "6LdqlXUkAAAAAM42XqKH27dw9WQu1kdsM8wF-jgF"
@@ -31,9 +35,23 @@ login_manager.init_app(app)
 login_manager.login_view = 'login'
 login_manager.login_message_category = 'info'
 
+
+# create a database engine
+# engine = create_engine('sqlite:///rshop.db')
+
+# create a session factory
+# Session = sessionmaker(bind=engine)
+
+# create a session object
+# session = Session()
+
+# create a base class
+# Base = declarative_base()
+
 @login_manager.user_loader
 def load_user(user_id):
     return User.query.get(int(user_id))
+
 
 class User(db.Model, UserMixin):
     id = db.Column(db.Integer, primary_key=True)
@@ -47,7 +65,8 @@ class User(db.Model, UserMixin):
     rewards = db.Column(db.String)
     rewardsaddress = db.Column(db.String)
 
-    def __init__(self, username, password, email=None, points=0, ordered=None, address=None, contact=None, rewards=None, rewardsaddress=None):
+    def __init__(self, username, password, email=None, points=500, ordered=None, address=None, contact=None,
+                 rewards=None, rewardsaddress=None):
         self.username = username
         self.password = password
         self.email = email
@@ -61,12 +80,13 @@ class User(db.Model, UserMixin):
     def __repr__(self):
         return f"User('{self.username}', '{self.email}', '{self.points}', '{self.ordered}', '{self.address}', '{self.contact}', '{self.rewards}', '{self.rewardsaddress}')"
 
+
 class RegisterForm(FlaskForm):
     username = StringField(validators=[
-                           InputRequired(), Length(min=4, max=20)], render_kw={"placeholder": "Username"})
+        InputRequired(), Length(min=4, max=20)], render_kw={"placeholder": "Username"})
 
     password = PasswordField(validators=[
-                             InputRequired(), Length(min=8, max=20)], render_kw={"placeholder": "Password"})
+        InputRequired(), Length(min=8, max=20)], render_kw={"placeholder": "Password"})
 
     recaptcha = RecaptchaField()
 
@@ -79,20 +99,22 @@ class RegisterForm(FlaskForm):
             raise ValidationError(
                 'That username has unfortunately been taken :( Please choose a different username.')
 
+
 class LoginForm(FlaskForm):
     username = StringField(validators=[
-                           InputRequired(), Length(min=4, max=20)], render_kw={"placeholder": "Username"})
+        InputRequired(), Length(min=4, max=20)], render_kw={"placeholder": "Username"})
 
     password = PasswordField(validators=[
-                             InputRequired(), Length(min=8, max=20)], render_kw={"placeholder": "Password"})
+        InputRequired(), Length(min=8, max=20)], render_kw={"placeholder": "Password"})
 
     recaptcha = RecaptchaField()
 
     submit = SubmitField('Login')
 
+
 class ChangePass(FlaskForm):
     newpass = PasswordField(validators=[
-                             InputRequired(), Length(min=8, max=20)], render_kw={"placeholder": "New Password"})
+        InputRequired(), Length(min=8, max=20)], render_kw={"placeholder": "New Password"})
 
     submit = SubmitField('Change Password')
 
@@ -112,6 +134,7 @@ def register():
         return redirect(url_for('login'))
 
     return render_template('register.html', form=form)
+
 
 @app.route('/login', methods=['POST', 'GET'])
 def login():
@@ -138,11 +161,11 @@ def login():
 @login_required
 def dashboard():
     if request.method == "POST":
-        #if request.form["email"] != "":
+        # if request.form["email"] != "":
         email = request.form["email"]
-        #if request.form["delete"] != "":
-            #delete = request.form["delete"]
-        #email validator
+        # if request.form["delete"] != "":
+        # delete = request.form["delete"]
+        # email validator
         if email == current_user.email:
             flash("Changing to the same email doesn't change anything :P", 'info')
         else:
@@ -156,8 +179,8 @@ def dashboard():
                     flash("Please enter a valid email", 'danger')
             elif email == "":
                 flash("Please enter something", 'danger')
-            #if delete != "":
-                #print("a")
+            # if delete != "":
+            # print("a")
 
     return render_template('dashboard.html')
 
@@ -169,14 +192,17 @@ def logout():
     flash('You have successfully logged out!', 'success')
     return redirect(url_for('login'))
 
+
 @app.route('/error')
 def error():
     return render_template('error.html')
+
 
 @app.route('/users')
 @login_required
 def users():
     return render_template('users.html', values=User.query.all())
+
 
 @app.route('/delete', methods=['GET', 'POST'])
 @login_required
@@ -196,6 +222,7 @@ def delete():
         return redirect(url_for('dashboard'))
     return render_template('delete.html')
 
+
 @app.route('/change', methods=['GET', 'POST'])
 @login_required
 def change():
@@ -214,7 +241,8 @@ def change():
             return redirect(url_for('login'))
     return render_template('change.html', form=form)
 
-@app.route('/admin', methods=['GET','POST'])
+
+@app.route('/admin', methods=['GET', 'POST'])
 @login_required
 def admin():
     id = current_user.id
@@ -224,13 +252,16 @@ def admin():
         flash("Sorry, only admins are allowed access here!", 'info')
         return redirect(url_for('shop'))
 
+
 @app.route('/profileexample')
 def profileexample():
     return render_template("profileexample.html")
 
+
 @app.route('/home')
 def loginhome():
     return render_template("loginhome.html")
+
 
 class Inventory(db.Model):
     __bind_key__ = 'inventory'
@@ -244,6 +275,7 @@ class Inventory(db.Model):
 
     def __repr__(self):
         return '<Name %r>' % self.name
+
 
 # Create a form class
 class inventoryform(FlaskForm):
@@ -291,7 +323,7 @@ def additems():
             saver.save(os.path.join(app.config['UPLOAD_FOLDER'], pic_name))
 
             reward = Inventory(name=form.name.data, price=form.price.data, quantity=form.quantity.data,
-                             category=form.category.data, rewardpic=pic_name)
+                               category=form.category.data, rewardpic=pic_name)
 
             db.session.add(reward)
             db.session.commit()
@@ -372,8 +404,11 @@ def deleteitems(id):
         flash('Error! There was a problem deleting the reward''danger')
         return render_template('index.html', name=name, form=form, items=items)
 
-class Rewards(db.Model):
+
+# define a simple model
+class rewards(db.Model):
     __bind_key__ = 'rewards'
+    __tablename__ = 'rewards'
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(100), nullable=False, unique=True)
     price = db.Column(db.Integer, nullable=False)
@@ -385,6 +420,11 @@ class Rewards(db.Model):
     def __repr__(self):
         return '<Name %r>' % self.name
 
+
+# create the table
+# Base.metadata.create_all(engine)
+
+
 # Create a form class
 class rewardform(FlaskForm):
     name = StringField('Name', validators=[DataRequired()])
@@ -394,33 +434,72 @@ class rewardform(FlaskForm):
     rewardpic = FileField("Reward Image")
     submit = SubmitField('Submit', validators=[DataRequired()])
 
+
 @app.route('/manage_rewards')
 @login_required
 def rmanage():
     id = current_user.id
     if id == 1:
-        ourrewards = Rewards.query.order_by(Rewards.date_added)
+        ourrewards = rewards.query.order_by(rewards.date_added)
         return render_template('rmanage.html', ourrewards=ourrewards)
     else:
         flash("Sorry, only admins are allowed access here!", 'info')
         return redirect(url_for('shop'))
+
 
 @app.route('/manage_rewards/sort_desc')
 @login_required
 def rmanage_desc():
     id = current_user.id
     if id == 1:
-        ourrewards = Rewards.query.order_by(Rewards.date_added.desc())
+        ourrewards = rewards.query.order_by(rewards.date_added.desc())
         return render_template('rmanage.html', ourrewards=ourrewards)
     else:
         flash("Sorry, only admins are allowed access here!", 'info')
         return redirect(url_for('shop'))
 
+
 @app.route('/rewards_shop')
 @login_required
 def rshop():
-    ourrewards = Rewards.query.order_by(Rewards.date_added)
-    return render_template('rshop.html', ourrewards=ourrewards)
+    ourrewards = rewards.query.order_by(rewards.date_added)
+    user_id = current_user.id
+    user_points = current_user.points
+    return render_template('rshop.html', ourrewards=ourrewards, user_id=user_id, user_points=user_points)
+
+
+@app.route('/redeem/<int:price>', methods=['GET', 'POST'])
+@login_required
+def redemption(price):
+    # form = rewardform()
+    # reward_id = rewards.query.get_or_404(id)
+    if request.method == "POST":
+        if current_user.points<price:
+            flash('Insufficient points','danger')
+            return redirect(url_for('rshop'))
+        else:
+            user_id = current_user.id
+            user_points = current_user.points
+            user_points = int(user_points) - int(price)
+            db.session.commit()
+            upper = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
+            number = "0123456789"
+            all = upper + number
+            length = 7
+            code = "".join(random.sample(all, length))
+            flash("Product Redeemed Successfully!\nYour Promo Code is " + code, 'success')
+            # current_user.rewardaddress = str(code)
+            current_user.reward = rewards.query.filter_by(price=price).first()
+            # db.session.add(current_user.rewardaddress)
+            db.session.add(current_user.reward)
+            db.session.commit()
+            # qty =request.form.get('quantity')
+            # qty=qty-1
+            return render_template('redeem.html', price=price, user_points=user_points)
+            # return redirect(url_for('rshop'))
+    else:
+        pass
+        return render_template('rshop.html')
 
 
 @app.route('/add_rewards', methods=['GET', 'POST'])
@@ -440,7 +519,7 @@ def addrewards():
             saver = form.rewardpic.data
             saver.save(os.path.join(app.config['UPLOAD_FOLDER'], pic_name))
 
-            reward = Rewards(name=form.name.data, price=form.price.data, quantity=form.quantity.data,
+            reward = rewards(name=form.name.data, price=form.price.data, quantity=form.quantity.data,
                              category=form.category.data, rewardpic=pic_name)
 
             db.session.add(reward)
@@ -460,7 +539,7 @@ def addrewards():
             return render_template('addr.html', name=name, form=form)
     else:
         pass
-        ourrewards = Rewards.query.order_by(Rewards.date_added)
+        ourrewards = rewards.query.order_by(rewards.date_added)
     return render_template('addr.html', name=name, form=form, ourrewards=ourrewards)
 
 
@@ -468,7 +547,7 @@ def addrewards():
 @login_required
 def updaterewards(id):
     form = rewardform()
-    update = Rewards.query.get_or_404(id)
+    update = rewards.query.get_or_404(id)
     if request.method == "POST":
         update.name = request.form['name']
         update.price = request.form['price']
@@ -508,36 +587,40 @@ def updaterewards(id):
 @app.route('/delete_rewards/<int:id>')
 @login_required
 def deleterewards(id):
-    delete = Rewards.query.get_or_404(id)
+    delete = rewards.query.get_or_404(id)
     name = None
     form = rewardform()
     try:
         db.session.delete(delete)
         db.session.commit()
         flash('Reward Deleted Successfully', 'success')
-        ourrewards = Rewards.query.order_by(Rewards.date_added)
+        ourrewards = rewards.query.order_by(rewards.date_added)
         return render_template('rmanage.html', name=name, form=form, ourrewards=ourrewards)
 
     except:
         flash('Error! There was a problem deleting the reward''danger')
         return render_template('rmanage.html', name=name, form=form, ourrewards=ourrewards)
 
+
 class NamerForm(FlaskForm):
     address = StringField("Address", validators=[DataRequired()])
-    number = StringField("Contact Number", validators=[DataRequired(), Length(min = 8, max = 8) ])
+    number = StringField("Contact Number", validators=[DataRequired(), Length(min=8, max=8)])
     postalcode = StringField("Postal Code", validators=[DataRequired(), Length(min=6, max=6)])
     name = StringField("Name on Card:", validators=[DataRequired()])
-    cnumber = StringField("Credit card Number", validators=[DataRequired(), Length(min = 16, max = 16)])
-    cvv = PasswordField("CVV", validators=[DataRequired(), Length(min= 3, max= 3)])
-    month = SelectField('Expiry Month', choices=[('3', '03'), ('4', '04'), ('5', '05'), ('6', '06'), ('7', '07'), ('8', '08'), ('9', '09'), ('10', '10'), ('11', '11'), ('12', '12')])
-    year = SelectField('Expiry Year', choices=[('1', '2023'), ('2', '2024'), ('3', '2025'), ('4', '2026'), ('5', '2027'), ('6', '2028')])
+    cnumber = StringField("Credit card Number", validators=[DataRequired(), Length(min=16, max=16)])
+    cvv = PasswordField("CVV", validators=[DataRequired(), Length(min=3, max=3)])
+    month = SelectField('Expiry Month',
+                        choices=[('3', '03'), ('4', '04'), ('5', '05'), ('6', '06'), ('7', '07'), ('8', '08'),
+                                 ('9', '09'), ('10', '10'), ('11', '11'), ('12', '12')])
+    year = SelectField('Expiry Year',
+                       choices=[('1', '2023'), ('2', '2024'), ('3', '2025'), ('4', '2026'), ('5', '2027'),
+                                ('6', '2028')])
     submit = SubmitField("Submit")
 
 
 @app.route("/name", methods=['GET', 'POST'])
 @login_required
 def name():
-
     form = NamerForm()
     if form.validate_on_submit():
         current_user.contact = form.number.data
@@ -550,13 +633,14 @@ def name():
         form.month.data = ''
         flash("Payment Successful!", 'success')
         return redirect(url_for('namtest'))
-    return render_template("name.html" , form = form)
+    return render_template("name.html", form=form)
+
 
 @app.route('/namtest')
 @login_required
 def namtest():
-
     return render_template('namtest.html')
+
 
 @app.route('/cart')
 @login_required
@@ -564,21 +648,21 @@ def cart():
     return render_template('cart.html')
 
 
-@app.route('/delete_item/<int:id>')
-@login_required
-def deleteitem(id):
-    delete = Inventory.query.get_or_404(id)
-    name = None
-    try:
-        Inventory.session.delete(delete)
-        Inventory.session.commit()
-        Inventory('Item Deleted Successfully', 'success')
-        ouritem = Inventory.query.order_by(Rewards.date_added)
-        return render_template('cart.html', name=name, ouritem = ouritem)
-
-    except:
-        flash('Error! There was a problem deleting the item''danger')
-        return render_template('cart.html', name=name, ouritem = ouritem)
+# @app.route('/delete_item/<int:id>')
+# @login_required
+# def deleteitem(id):
+#     delete = Inventory.query.get_or_404(id)
+#     name = None
+#     try:
+#         Inventory.session.delete(delete)
+#         Inventory.session.commit()
+#         Inventory('Item Deleted Successfully', 'success')
+#         ouritem = Inventory.query.order_by(Rewards.date_added)
+#         return render_template('cart.html', name=name, ouritem = ouritem)
+#
+#     except:
+#         flash('Error! There was a problem deleting the item''danger')
+#         return render_template('cart.html', name=name, ouritem = ouritem)
 
 with app.app_context():
     db.create_all()

@@ -12,6 +12,7 @@
     {% endfor %}
   {% endif %}
 {% endwith %}
+<div style="padding-left:300px;padding-right:300px;" >
 
 <h1>Update rewards</h1>
 <!--Add reward form-->
@@ -40,10 +41,11 @@
     value=update.rewardpic) }} <br>
 
 <br>
-    <a class="btn btn-secondary" href="/manage_rewards">Back</a>
-{{ form.submit(class="btn btn-primary btn-xs", value="Update") }}
-</form>
+    {{ form.submit(class="btn btn-primary btn-xs float-right", value="Update") }}
+    <a style="margin-right:10px;" class="btn btn-secondary float-right" href="/manage_rewards">Back</a>
 
+</form>
+</div>
 <!--{% for ourreward in ourrewards %}-->
 <!--{{ourreward.id}}-{{ourreward.name}}-{{ourreward.price}}-{{ourreward.quantity}}-{{ourreward.category}} <br>-->
 <!--{% endfor %}-->

@@ -31,8 +31,10 @@ label {
 
 </style>
 
+<div style="padding-left:300px;padding-right:300px;" >
 <h1>Add rewards</h1>
 <!--Add reward form-->
+
 <form action="" method="post" enctype="multipart/form-data">
 <!-- CSRF token protect the form against CSRF attacks -->
 {{ form.hidden_tag() }}
@@ -53,10 +55,10 @@ label {
 {{ form.rewardpic(class="form-control") }} <br>
 
 <br>
-<a class="btn btn-secondary" href="/manage_rewards">Back</a>
-{{ form.submit(class="btn btn-primary btn-xs", value="Add") }}
+    {{ form.submit(class="btn btn-primary btn-xs float-right", value="Add") }}
+<a style="margin-right:10px;" class="btn btn-secondary float-right" href="/manage_rewards">Back</a>
 </form>
-
+</div>
 
 
 {% endblock %}

@@ -12,13 +12,12 @@
     {% endfor %}
   {% endif %}
 {% endwith %}
-<br>
-<h1 style="text-align:center;" >Rewards Shop</h1>
-<br>
-<h5 style="padding-right:100px;" class="float-right">
-    Points: {{user_points}}
-</h5>
-<br> <br>
+<h1 style="text-align:center;" >Redeemed</h1>
+
+
+<div>
+    Points:{{user_points}}
+</div>
 <style>
 .card-img-top {
     width: 100%;
@@ -27,19 +26,18 @@
 }
 </style>
 
-<div style="padding-left:100px;" class="container-m1" id="topdiv6">
+<div style="padding-left:100px;padding-right:300px;" class="container-m1" id="topdiv6">
 <div class="row" id="index0">
 {% for ourreward in ourrewards %}
-<div class="card m-2 border-secondary" style="width: 18rem;">
+<div class="card m-2" style="width: 18rem;">
 <img class="card-img-top" src="{{ url_for('static',filename='uploads/' + ourreward.rewardpic) }}" alt="Insert img">
 
-<div style="background-color:#D3D3D3;" class="card-body">
+<div class="card-body">
 <h5 class="card-title">{{ourreward.name}}</h5>
 <p class="card-text">Price: {{ourreward.price}} points <br> </p>
 
-    <form action="{{url_for('redemption',price=ourreward.price)}}" method="post">
-        <button class="btn-btn-primary float-right" onclick="return confirm ('Are you sure you want to Delete?')" type="submit">Redeem</button>
-    </form>
+<a class="btn btn-primary float-right" href="{{url_for('redemption',id=ourreward.id)}}" onclick="return confirm ('Are you sure you want to Delete?')">Delete</a><br>
+
 </div>
 </div>
 {% endfor %}
