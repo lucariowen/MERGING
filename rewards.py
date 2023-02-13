@@ -9,7 +9,7 @@ from flask_wtf.file import FileField
 from werkzeug.utils import secure_filename
 import uuid as uuid
 import os
-import pytz
+# import pytz
 
 app = Flask(__name__)
 app.config['SECRET_KEY'] = 's'

@@ -15,7 +15,7 @@
 
 <h1>Update rewards</h1>
 <!--Add reward form-->
-<form action="/update_rewards/{{update.id}}" method="post" enctype="multipart/form-data">
+<form action="/flask_app_rewards/update_rewards/{{update.id}}" method="post" enctype="multipart/form-data">
 <!-- CSRF token protect the form against CSRF attacks -->
 {{ form.hidden_tag() }}
 <!--form stuff-->
@@ -40,7 +40,7 @@
     value=update.rewardpic) }} <br>
 
 <br>
-    <a class="btn btn-secondary" href="/manage_rewards">Back</a>
+    <a class="btn btn-secondary" href="/flask_app_rewards/manage_rewards">Back</a>
 {{ form.submit(class="btn-btn-secondary", value="Update") }}
 </form>
 
