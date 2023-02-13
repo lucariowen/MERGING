@@ -47,7 +47,7 @@ class User(db.Model, UserMixin):
     rewards = db.Column(db.String)
     rewardsaddress = db.Column(db.String)
 
-    def __init__(self, username, password, email=None, points=0, ordered=None, address=None, contact=None, rewards=None, rewardsaddress=None):
+    def __init__(self, username, password, email=None, points=500, ordered=None, address=None, contact=None, rewards=None, rewardsaddress=None):
         self.username = username
         self.password = password
         self.email = email
