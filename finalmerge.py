@@ -526,6 +526,25 @@ def namtest():
 
     return render_template('namtest.html')
 
+@app.route('/cart')
+def cart():
+    return render_template('cart.html')
+
+
+@app.route('/delete_item/<int:id>')
+def deleteitem(id):
+    delete = Inventory.query.get_or_404(id)
+    name = None
+    try:
+        Inventory.session.delete(delete)
+        Inventory.session.commit()
+        Inventory('Item Deleted Successfully', 'success')
+        ouritem = Inventory.query.order_by(Rewards.date_added)
+        return render_template('cart.html', name=name, ouritem = ouritem)
+
+    except:
+        flash('Error! There was a problem deleting the item''danger')
+        return render_template('cart.html', name=name, ouritem = ouritem)
 
 with app.app_context():
     db.create_all()
