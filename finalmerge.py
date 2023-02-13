@@ -2,7 +2,8 @@ from flask import Flask, render_template, url_for, redirect, flash, request
 from flask_sqlalchemy import SQLAlchemy, query, record_queries
 from flask_login import UserMixin, login_user, LoginManager, login_required, logout_user, current_user
 from flask_wtf import FlaskForm, RecaptchaField
-from wtforms import StringField, PasswordField, SubmitField, FloatField, IntegerField, DateField, TextAreaField, EmailField, SelectField, validators
+from wtforms import StringField, PasswordField, SubmitField, FloatField, IntegerField, DateField, TextAreaField, \
+    EmailField, SelectField, validators
 from wtforms.validators import InputRequired, Length, ValidationError, DataRequired, Email
 from flask_bcrypt import Bcrypt
 from email_validator import validate_email, EmailNotValidError
@@ -474,8 +475,8 @@ def redemption(price):
     # form = rewardform()
     # reward_id = rewards.query.get_or_404(id)
     if request.method == "POST":
-        if current_user.points<price:
-            flash('Insufficient points','danger')
+        if current_user.points < price:
+            flash('Insufficient points', 'danger')
             return redirect(url_for('rshop'))
         else:
             user_id = current_user.id
