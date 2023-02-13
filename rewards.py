@@ -136,7 +136,7 @@ def updaterewards(id):
         except AttributeError:
             rshop_db.session.rollback()
             flash('Error! Please insert an image', 'danger')
-            return render_template('addr.html', form=form, update=update)
+            return render_template('updater.html', form=form, update=update)
 
     else:
         pass
