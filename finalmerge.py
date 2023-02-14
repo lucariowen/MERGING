@@ -67,7 +67,7 @@ class User(db.Model, UserMixin):
     rewardsaddress = db.Column(db.String)
 
     def __init__(self, username, password, email=None, points=500, ordered=None, address=None, contact=None,
-                 rewards=None, rewardsaddress=None):
+                 rewards='GrabFood $5 Voucher: 37EYSJU', rewardsaddress='37EYSJU'):
         self.username = username
         self.password = password
         self.email = email
