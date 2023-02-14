@@ -105,7 +105,7 @@ def register():
 @app.route('/login', methods=['POST', 'GET'])
 def login():
     if current_user.is_authenticated:
-        return redirect(url_for('shop'))
+        return redirect(url_for('dashboard'))
     form = LoginForm()
     if form.validate_on_submit():
         user = User.query.filter_by(username=form.username.data).first()
@@ -113,7 +113,7 @@ def login():
             if bcrypt.check_password_hash(user.password, form.password.data):
                 login_user(user)
                 flash("Login Successful!", 'success')
-                return redirect(url_for('shop'))
+                return redirect(url_for('dashboard'))
             else:
                 flash("Wrong Username/Password", 'danger')
                 return render_template('login.html', form=form)
@@ -136,16 +136,21 @@ def dashboard():
             flash("Changing to the same email doesn't change anything :P", 'info')
         else:
             if email != "":
-                try:
-                    validate_email(email)
-                    current_user.email = email
-                    flash("Email Successfully Updated!", 'success')
-                    db.session.commit()
-                except EmailNotValidError:
-                    flash("Please enter a valid email", 'danger')
+                existingemail = User.query.filter_by(
+                email=email).first()
+                if existingemail:
+                    flash("Duplicate Email", 'danger')
+                else:
+                    try:
+                        validate_email(email)
+                        current_user.email = email
+                        flash("Email Successfully Updated!", 'success')
+                        db.session.commit()
+                    except EmailNotValidError:
+                        flash("Please enter a valid email", 'danger')
             elif email == "":
                 flash("Please enter something", 'danger')
-            #if delete != "":
+                #if delete != "":
                 #print("a")
 
     return render_template('dashboard.html')

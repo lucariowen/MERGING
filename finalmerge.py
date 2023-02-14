@@ -162,26 +162,31 @@ def login():
 @login_required
 def dashboard():
     if request.method == "POST":
-        # if request.form["email"] != "":
+        #if request.form["email"] != "":
         email = request.form["email"]
-        # if request.form["delete"] != "":
-        # delete = request.form["delete"]
-        # email validator
+        #if request.form["delete"] != "":
+            #delete = request.form["delete"]
+        #email validator
         if email == current_user.email:
             flash("Changing to the same email doesn't change anything :P", 'info')
         else:
             if email != "":
-                try:
-                    validate_email(email)
-                    current_user.email = email
-                    flash("Email Successfully Updated!", 'success')
-                    db.session.commit()
-                except EmailNotValidError:
-                    flash("Please enter a valid email", 'danger')
+                existingemail = User.query.filter_by(
+                email=email).first()
+                if existingemail:
+                    flash("Duplicate Email", 'danger')
+                else:
+                    try:
+                        validate_email(email)
+                        current_user.email = email
+                        flash("Email Successfully Updated!", 'success')
+                        db.session.commit()
+                    except EmailNotValidError:
+                        flash("Please enter a valid email", 'danger')
             elif email == "":
                 flash("Please enter something", 'danger')
-            # if delete != "":
-            # print("a")
+                #if delete != "":
+                #print("a")
 
     return render_template('dashboard.html')
 
