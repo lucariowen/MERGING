@@ -1,0 +1,7 @@
+<!-- HTML -->
+<div>Welcome, <span id="username"><!-- Vulnerable code --></span></div>
+
+<script>
+    var username = decodeURIComponent(window.location.search.substring(1));
+    document.getElementById('username').textContent = username;
+</script>
