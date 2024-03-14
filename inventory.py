@@ -247,6 +247,10 @@ def deleteitems(id):
         flash('Error! There was a problem deleting the reward''danger')
         return render_template('index.html', name=name, form=form, items=items)
 
+@app.route('/crash')
+def main():
+    raise Exception()
+
 
 if __name__ == '__main__':
     app.run(debug=True)
