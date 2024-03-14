@@ -189,7 +189,7 @@ def delete():
         return redirect(url_for('dashboard'))
     return render_template('delete.html')
 
-# dog
+# dogtest
 
 
 @app.route('/change', methods=['GET', 'POST'])
