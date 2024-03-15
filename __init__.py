@@ -15,6 +15,7 @@ app.config['RECAPTCHA_PUBLIC_KEY'] = "6LdqlXUkAAAAAHVX8Ax_YuatX0XWzLxvj_tnxWx7"
 app.config['RECAPTCHA_PRIVATE_KEY'] = "6LdqlXUkAAAAAM42XqKH27dw9WQu1kdsM8wF-jgF"
 db = SQLAlchemy(app)
 
+
 login_manager = LoginManager()
 login_manager.init_app(app)
 login_manager.login_view = 'login'
