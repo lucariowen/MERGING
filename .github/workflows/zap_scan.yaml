@@ -17,3 +17,9 @@ jobs:
           target: 'http://127.0.0.1:5000/'
           # rules_file_name: '.zap/rules.tsv'
           # cmd_options: '-a'
+      # Your existing steps...
+
+      - name: Check Docker daemon status
+        run: |
+          sudo systemctl status docker || true
+          docker info || true
