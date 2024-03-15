@@ -1,0 +1,11 @@
+on: [push]
+
+jobs:
+  zap_scan:
+    runs-on: ubuntu-latest
+    name: Scan Website
+    steps:
+      - name: ZAP Scan
+        uses: zaproxy/action-baseline@v0.11.0
+        with:
+          target: 'http://127.0.0.1:5000/'
