@@ -1,16 +1,38 @@
 name: 'Dependency Review'
+
 on:
+  pull_request:
   push:
-    branches: [ "main" ]
+    branches:
+      - main
 
 permissions:
   contents: read
 
 jobs:
+
   dependency-review:
     runs-on: ubuntu-latest
+
     steps:
-      - name: 'Checkout Repository'
-        uses: actions/checkout@v4
-      - name: 'Dependency Review'
-        uses: actions/dependency-review-action@v4
+    - name: 'Checkout Repository'
+      uses: actions/checkout@v4
+
+    - name: 'Dependency Review'
+      uses: actions/dependency-review-action@v4
+      with:
+        repo-token: ${{ secrets.GITHUB_TOKEN }}
+        retry-on-snapshot-warnings: false
+        retry-on-snapshot-warnings-timeout: 120
+        warn-only: false
+        
+    - name: 'Dependency Review (Push)'
+      if: ${{ github.event_name == 'push' }}
+      uses: actions/dependency-review-action@v4
+      with:
+        repo-token: ${{ secrets.GITHUB_TOKEN }}
+        base-ref: ${{ github.event.before }}  # The branch or SHA before the push
+        head-ref: ${{ github.event.after }}   # The branch or SHA after the push
+        retry-on-snapshot-warnings: false
+        retry-on-snapshot-warnings-timeout: 120
+        warn-only: false
