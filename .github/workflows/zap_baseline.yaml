@@ -8,4 +8,4 @@ jobs:
       - name: ZAP Scan
         uses: zaproxy/action-baseline@v0.11.0
         with:
-          target: 'https://google-gruyere.appspot.com/561107255923692790570133811838178574783/'
+          target: 'https://google-gruyere.appspot.com/359590344817771210252875530455144199549/'
