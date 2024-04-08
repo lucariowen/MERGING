@@ -55,7 +55,7 @@ class RegisterForm(FlaskForm):
     password = PasswordField(validators=[
                              InputRequired(), Length(min=8, max=20)], render_kw={"placeholder": "Password"})
 
-    recaptcha = RecaptchaField()
+    # recaptcha = RecaptchaField()
 
     submit = SubmitField('Register')
 
@@ -73,7 +73,7 @@ class LoginForm(FlaskForm):
     password = PasswordField()#validators=[
                              #InputRequired(), Length(min=8, max=20)], render_kw={"placeholder": "Password"})
 
-    recaptcha = RecaptchaField()
+    # recaptcha = RecaptchaField()
 
     submit = SubmitField('Login')
 
