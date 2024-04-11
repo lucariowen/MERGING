@@ -1,4 +1,7 @@
-on: [push]
+on: 
+  push:
+  schedule:
+    - cron: '0 22 * * *' # Runs at 6 AM GMT+8 every day
 
 jobs:
   zap_scan:
@@ -24,6 +27,8 @@ jobs:
 
           # cmd_options: '-a -j' --> '-j' is to add ajax spider (good for modern webapps, 
           # but this resulted in https://www.google.com to be attacked by ZAP = gg!!!
-      # Your existing steps...
+      # You can configure to blacklist some websites from being attacked
+  # Or ignore certain findings that are insignificant by configuring
+# a .tsv file (.zap/rules.tsv) WIP WIP WIP WIP
 # TEST
 
