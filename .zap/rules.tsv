@@ -18,4 +18,4 @@
 90005	IGNORE	(Sec-Fetch-Site Header is Missing)
 90005	IGNORE	(Sec-Fetch-User Header is Missing)
 10035	IGNORE	https://example.com/login 
-*  OUTOFSCOPE  .*\.com
+*	OUTOFSCOPE	.*\.com
