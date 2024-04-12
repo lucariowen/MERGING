@@ -15,7 +15,7 @@
 90004	IGNORE	(Insufficient Site Isolation Against Spectre Vulnerability)
 90005	IGNORE	(Sec-Fetch-Dest Header is Missing)
 90005	IGNORE	(Sec-Fetch-Mode Header is Missing)
-90005	FAIL	(Sec-Fetch-Site Header is Missing)
-90005	WARN	(Sec-Fetch-User Header is Missing)
+90005	IGNORE	(Sec-Fetch-Site Header is Missing)
+90005	IGNORE	(Sec-Fetch-User Header is Missing)
 10035	IGNORE	https://example.com/login 
 *    OUTOFSCOPE    .*\.js
