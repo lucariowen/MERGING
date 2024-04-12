@@ -8,6 +8,9 @@ jobs:
     name: Scan Website
 
     steps:
+    - name: Checkout repository
+      uses: actions/checkout@v4
+      
     - name: ZAP Scan
       uses: zaproxy/action-baseline@v0.11.0
       with:
@@ -16,7 +19,7 @@ jobs:
         rules_file_name: '.zap/rules.tsv'  # Path to the ZAP rules file
         # cmd_options: '-a'  # Additional command line options for the baseline script
         # allow_issue_writing: false  # Set to false to prevent creating/updating the GitHub issue
-        # issue_title: 'ZAP Scan Report'  # Title for the GitHub issue
+        # issue_title: 'Test123'  # Title for the GitHub issue
         # token: ${{ secrets.GITHUB_TOKEN }}  # GitHub token (not needed if using default actions token)
         # fail_action: true  # Fail the GitHub Action if ZAP identifies any alerts
         # artifact_name: 'zap_scan_report'  # Name for the artifact containing the ZAP report
