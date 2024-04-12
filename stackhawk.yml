@@ -5,7 +5,7 @@ app:
   # -- The environment for the applicationId defined in the StackHawk platform. --
   env: Development # (required)
   # -- The url of your application to scan --
-  host: http://127.0.0.1:5000 # (required)
+  host: https://google-gruyere.appspot.com/359590344817771210252875530455144199549/ # (required)
 
 
 # -- Customized Configuration for GraphQL/SOAP/OpenAPI, add here --
