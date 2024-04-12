@@ -18,3 +18,7 @@
 90005	IGNORE	(Sec-Fetch-Site Header is Missing)
 90005	IGNORE	(Sec-Fetch-User Header is Missing)
 10035	IGNORE	https://example.com/login 
+# This ignores rule ID 10035 (Strict-Transport-Seucrity Header Not Set) for that URL.
+# IMPORTANT → The indents MUST be made with tabs, not spaces, otherwise it won’t work.
+*    OUTOFSCOPE    .*\.com
+# Ignore all URLS containing ‘.js’ for all scan rules.
