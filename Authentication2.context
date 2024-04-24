@@ -67,7 +67,7 @@
             <loggedout>\bSign\s*In\b</loggedout>
             <browser>
                 <loginpageurl>https://google-gruyere.appspot.com/359590344817771210252875530455144199549/login</loginpageurl>
-                <browserid>chrome-headless</browserid>
+                <browserid>firefox</browserid>
                 <loginpagewait>2</loginpagewait>
             </browser>
         </authentication>
