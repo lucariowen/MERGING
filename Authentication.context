@@ -4,7 +4,7 @@
         <name>Authentication Test</name>
         <desc/>
         <inscope>true</inscope>
-        <incregexes>https://google-gruyere.appspot.com.*</incregexes>
+        <incregexes>https://google-gruyere.appspot.com/359590344817771210252875530455144199549/.*</incregexes>
         <tech>
             <include>Db</include>
             <include>Db.CouchDB</include>
