@@ -4,7 +4,7 @@
         <name>Authentication Test</name>
         <desc/>
         <inscope>true</inscope>
-        <incregexes>https://google-gruyere.appspot.com.*</incregexes>
+        <incregexes>https://google-gruyere.appspot.com/3595903448177712102.*</incregexes>
         <excregexes>https://google-gruyere.appspot.com</excregexes>
         <excregexes>https://google-gruyere.appspot.com/</excregexes>
         <excregexes>https://google-gruyere.appspot.com/start</excregexes>
