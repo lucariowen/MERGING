@@ -4,7 +4,7 @@
         <name>Authentication Test</name>
         <desc/>
         <inscope>true</inscope>
-        <incregexes>https://google-gruyere.appspot.com/359590344817771210252875530455144199549.*</incregexes>
+        <incregexes>https://google-gruyere.appspot.com.*</incregexes>
         <tech>
             <include>Db</include>
             <include>Db.CouchDB</include>
@@ -63,8 +63,8 @@
             <loggedout>\bSign\s*In\b</loggedout>
             <browser>
                 <loginpageurl>https://google-gruyere.appspot.com/359590344817771210252875530455144199549/login</loginpageurl>
-                <browserid>firefox</browserid>
-                <loginpagewait>2</loginpagewait>
+                <browserid>firefox-headless</browserid>
+                <loginpagewait>10</loginpagewait>
             </browser>
         </authentication>
         <users>
