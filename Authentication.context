@@ -5,7 +5,6 @@
         <desc/>
         <inscope>true</inscope>
         <incregexes>https://google-gruyere.appspot.com.*</incregexes>
-        <excregexes>https://google-gruyere.appspot.com/</excregexes>
         <excregexes>https://google-gruyere.appspot.com/start</excregexes>
         <tech>
             <include>Db</include>
