@@ -20,3 +20,4 @@
 10035	IGNORE	https://example.com/login 
 
 *	OUTOFSCOPE	.*\.js
+IGNORE	https://google-gruyere.appspot.com
