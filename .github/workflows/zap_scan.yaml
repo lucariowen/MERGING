@@ -27,7 +27,7 @@ jobs:
           # Additional command line options
           # -j   runs the AJAX spider
           # -U   specifies which user to select from the context file
-          cmd_options: '-a -j -d -m "1" -U "test123" -n /zap/wrk/Authentication.context'
+          cmd_options: '-a -j -d -m "0.5" -U "test123" -n /zap/wrk/Authentication.context'
 
           # cmd_options: '-a -j' --> '-j' is to add ajax spider (good for modern webapps = uses JS, 
           #as ajax spider good for JS (JavaScript)
