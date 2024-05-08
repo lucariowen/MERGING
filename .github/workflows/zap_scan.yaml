@@ -7,20 +7,24 @@ jobs:
   zap_scan:
     runs-on: ubuntu-latest
     name: Scan the webapplication
+    
     steps:
       - name: Checkout
         uses: actions/checkout@v4
         with:
           ref: main
+          
       - name: Check Docker daemon status
         run: |
           sudo systemctl status docker || true
           docker info || true
+          
       - name: Replacing Password
         env:
           ZAP_PASSWORD: ${{secrets.ZAP_PASSWORD}}
         run: |
-          sed -ie "s/dGVzdDEyMw==~PASSWORD~/dGVzdDEyMw==~${ZAP_PASSWORD}~/" $GITHUB_WORKSPACE/Authentication.context
+          sed -ie "PASSWORD/${ZAP_PASSWORD}/" $GITHUB_WORKSPACE/Authentication.context
+      
       - name: ZAP Scan
         uses: zaproxy/action-full-scan@v0.10.0
         with:
