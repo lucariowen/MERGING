@@ -33,7 +33,8 @@ jobs:
           rules_file_name: '.zap/rules.tsv'
           cmd_options: '-a -j -d -m "1" -U "test123" -n /zap/wrk/Authentication.context'
 
-      # You can configure to blacklist some websites from being attacked
+      # You can configure to blacklist some websites from being attacked\
+    # with excregexes in context file (exclude regexes)
   # Or ignore certain findings that are insignificant by configuring
 # a .tsv file (.zap/rules.tsv)
 
