@@ -16,7 +16,7 @@ jobs:
         ZAP_PASSWORD: ${{secrets.ZAP_PASSWORD}}
       # Replace the "PLACEHOLDER" string in the context file with the password
       run: |
-        sed -ie "s/PLACEHOLDER/${ZAP_PASSWORD}/" /zap/wrk/Authentication.context
+        sed -ie "s/PLACEHOLDER/${ZAP_PASSWORD}/" $GITHUB_WORKSPACE/Authentication.context
 
     - name: ZAP Scan
       uses: zaproxy/action-baseline@v0.11.0
