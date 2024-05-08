@@ -23,7 +23,7 @@ jobs:
         env:
           ZAP_PASSWORD: ${{secrets.ZAP_PASSWORD}}
         run: |
-          sed -ie "PASSWORD/${ZAP_PASSWORD}/" $GITHUB_WORKSPACE/Authentication.context
+          sed -ie "s/PASSWORD/${ZAP_PASSWORD}/" $GITHUB_WORKSPACE/Authentication.context
       
       - name: ZAP Scan
         uses: zaproxy/action-full-scan@v0.10.0
