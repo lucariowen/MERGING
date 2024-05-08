@@ -14,7 +14,6 @@ jobs:
     - name: Replacing Password
       env:
         ZAP_PASSWORD: ${{secrets.ZAP_PASSWORD}}
-        # Replace the "PLACEHOLDER" string in the context file with the password
       run: |
         sed -ie "s/dGVzdDEyMw==~PASSWORD~/dGVzdDEyMw==~${ZAP_PASSWORD}~/" $GITHUB_WORKSPACE/Authentication.context
 
