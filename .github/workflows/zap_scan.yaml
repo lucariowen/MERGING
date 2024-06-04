@@ -1,7 +1,7 @@
 on: 
   push:
-  schedule:
-    - cron: '0 22 * * *' # Runs at 6 AM GMT+8 every day
+  #schedule:
+  # - cron: '0 22 * * *' # Runs at 6 AM GMT+8 every day
 
 jobs:
   zap_scan:
