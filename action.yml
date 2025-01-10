@@ -1,0 +1,23 @@
+name: 'ZAP Automation Framework Scan'
+description: 'Runs a ZAP Automation Framework plan. Powerful and flexible DAST scanning.'
+branding:
+  icon: 'zap'
+  color: 'blue'
+inputs:
+  plan:
+    description: 'The file system path or URL to the Automation Framework plan to run.'
+    required: true
+  docker_name:
+    description: 'The Docker image to be used.'
+    required: true
+    default: 'ghcr.io/zaproxy/zaproxy:stable'
+  docker_env_vars:
+    description: 'The env vars that should be passed to the Docker container running ZAP.'
+    required: false
+    default: ''
+  cmd_options:
+    description: 'Additional command line options to start ZAP with.'
+    required: false
+runs:
+  using: 'node20'
+  main: 'dist/index.js'
