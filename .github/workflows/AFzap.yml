@@ -1,14 +1,81 @@
 ---
 env:
   contexts:
-  - name: "Context"
+  - name: "DVWA-form"
     urls:
-    - "http://localhost/DVWA/"
+    - "http://localhost/DVWA"
+    includePaths:
+    - "http://localhost/DVWA.*"
+    excludePaths:
+    - "http://localhost/DVWA/logout.php"
+    - "http://localhost/DVWA/login.php"
+    - "http://localhost/DVWA/setup.php"
+    - "http://localhost/DVWA/security.php"
+    - "http://localhost/DVWA/vulnerabilities/csrf.*"
+    authentication:
+      method: "form"
+      parameters:
+        loginRequestBody: "username={%username%}&password=password&Login=Login&user_token=f4c2be9fba02186111829f053797c917"
+        loginPageUrl: "http://localhost/DVWA/login.php"
+        loginRequestUrl: "http://localhost/DVWA/login.php"
+      verification:
+        method: "poll"
+        loggedInRegex: "\\Qadmin\\E"
+        pollFrequency: 60
+        pollUnits: "requests"
+        pollUrl: "http://localhost/DVWA/instructions.php"
+        pollPostData: ""
+    sessionManagement:
+      method: "headers"
+      parameters:
+        Cookie: "PHPSESSID={%cookie:PHPSESSID%}; security=low"
+    technology:
+      exclude: []
+      include: []
+    users:
+    - name: "test"
+      credentials:
+        password: "password"
+        username: "admin"
   parameters:
     failOnError: true
-    failOnWarning: true
+    failOnWarning: false
     progressToStdout: true
+    continueOnFailure: false
+  vars: {}
 jobs:
-- requests:
-  - url: "http://localhost/DVWA/"
-  type: "requestor"
+- parameters:
+    context: "DVWA-form"
+    user: "test"
+    url: ""
+    maxDuration: 0
+    maxDepth: 0
+    maxChildren: 0
+  name: "spider"
+  type: "spider"
+  tests:
+  - onFail: "ERROR"
+    statistic: "automation.spider.urls.added"
+    site: ""
+    operator: ">="
+    value: 1
+    name: "At least 1 URLs found"
+    type: "stats"
+- parameters:
+    context: "DVWA-form"
+    user: "test"
+    policy: ""
+    maxRuleDurationInMins: 0
+    maxScanDurationInMins: 0
+    maxAlertsPerRule: 0
+  name: "activeScan"
+  type: "activeScan"
+- parameters: {}
+  name: "passiveScan-wait"
+  type: "passiveScan-wait"
+- parameters:
+    template: "modern"
+    reportTitle: "ZAP Scanning Report"
+    reportDescription: ""
+  name: "report"
+  type: "report"
