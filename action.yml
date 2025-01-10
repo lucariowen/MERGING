@@ -20,3 +20,4 @@ inputs:
     required: false
 runs:
   using: 'node20'
+  main: 'dist/index.js'
